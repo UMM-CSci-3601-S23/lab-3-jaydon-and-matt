@@ -46,6 +46,8 @@ describe('App', () => {
       // …then the URL of the current page should change to "…/".
       cy.url().should('match', /.*\/$/);
     });
+
+    // TODO: make a test for accessing the Todos from the sidebar.
   });
 
 });
