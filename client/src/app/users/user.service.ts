@@ -11,7 +11,7 @@ import { User, UserRole } from './user';
 @Injectable()
 export class UserService {
   // The URL for the users part of the server API.
-  readonly userUrl: string = environment.apiUrl + 'users';
+  readonly userUrl: string = environment.apiUrl + 'users'; // /api/users , sent to the Server
 
   // The private `HttpClient` is *injected* into the service
   // by the Angular framework. This allows the system to create
@@ -58,7 +58,7 @@ export class UserService {
     }
     // Send the HTTP GET request with the given URL and parameters.
     // That will return the desired `Observable<User[]>`.
-    return this.httpClient.get<User[]>(this.userUrl, {
+    return this.httpClient.get<User[]>(this.userUrl, { // /api/users/{parameters here}
       params: httpParams,
     });
   }
