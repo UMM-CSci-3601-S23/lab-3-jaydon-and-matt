@@ -47,7 +47,14 @@ describe('App', () => {
       cy.url().should('match', /.*\/$/);
     });
 
-    // TODO: make a test for accessing the Todos from the sidebar.
+    it('Should have a working navigation to "Todos"', () => {
+      page.getSidenavButton().click();
+      page.getSidenav();
+      // When we click the "Todos" option in the side navbar…
+      page.getNavLink('Todos').click();
+      // …then the URL of the current page should change to "…/todos".
+      cy.url().should('match', /.*\/todos$/);
+    });
   });
 
 });
