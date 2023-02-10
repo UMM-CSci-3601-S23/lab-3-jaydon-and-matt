@@ -16,7 +16,7 @@ import { TodoService } from './todo.service';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit {
   public serverFilteredTodos: Todo[];
   public filteredTodos: Todo[];
 
@@ -44,27 +44,24 @@ export class TodoListComponent {
    * client tampering is much easier.
    */
   updateFilter() {
-    //this.filteredTodos = this.todoService.filterTodos(
-      //this.serverFilteredUsers, { name: this.userName, company: this.userCompany }
-    //);
+    this.filteredTodos = this.todoService.filterTodos(
+      this.serverFilteredTodos
+    );
   }
 
   getTodosFromServer() {
-    /*this.userService.getUsers({
-      //role: this.userRole,
-      //age: this.userAge
-    //}).subscribe(returnedUsers => {
-      // This inner function passed to `subscribe` will be called
-      // when the `Observable` returned by `getUsers()` has one
-      // or more values to return. `returnedUsers` will be the
-      // name for the array of `Users` we got back from the
-      // server.
-      this.serverFilteredUsers = returnedUsers;
+    this.todoService.getTodos().subscribe(returnedTodos => {
+      //This inner function passed to `subscribe` will be called
+      //when the `Observable` returned by `getUsers()` has one
+      //or more values to return. `returnedUsers` will be the
+      //name for the array of `Users` we got back from the
+      //server.
+      this.serverFilteredTodos = returnedTodos;
       this.updateFilter();
     }, err => {
       // If there was an error getting the users, log
       // the problem and display a message.
-      console.error('We couldn\'t get the list of users; the server might be down');
+      console.error('We couldn\'t get the list of todos; the server might be down');
       this.snackBar.open(
         'Problem contacting the server – try again',
         'OK',
@@ -72,6 +69,11 @@ export class TodoListComponent {
         { duration: 3000 });
     });
   }
-  */
+
+  /**
+   * Starts an asynchronous operation to update the users list
+   */
+  ngOnInit(): void {
+    this.getTodosFromServer();
   }
 }
