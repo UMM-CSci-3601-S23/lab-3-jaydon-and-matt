@@ -37,11 +37,11 @@ export class TodoListPage {
   }
 
   /**
-   * Selects a role to filter in the "Role" selector.
+   * Selects a status to filter in the "Status" selector.
    *
-   * @param value The role *value* to select, this is what's found in the mat-option "value" attribute.
+   * @param value The status *value* to select, this is what's found in the mat-option "value" attribute. (boolean)
    */
-  selectRole(value: boolean) {
+  selectStatus(value: boolean) {
     // Find and click the drop down
     return cy.get('[data-test=todoStatusSelect]').click()
       // Select and click the desired value from the resulting menu
