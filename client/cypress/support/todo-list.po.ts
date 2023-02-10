@@ -17,6 +17,17 @@ export class TodoListPage {
   }
 
   /**
+   * Get all the `app-todo-card` DOM elements. This will be
+   * empty if we're using the list view of the users.
+   *
+   * @returns an iterable (`Cypress.Chainable`) containing all
+   *   the `app-todo-card` DOM elements.
+   */
+  getTodoCards() {
+    return cy.get('.todo-cards-container app-todo-card');
+  }
+
+  /**
    * Get all the `.todo-list-item` DOM elements. This will
    * be empty if we're using the card view of the todos.
    *

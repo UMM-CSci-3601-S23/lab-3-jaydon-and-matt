@@ -28,13 +28,24 @@ describe('Todo list', () => {
   });
 
   it('Should select a status, switch the view, and check that it returned correct elements', () => {
-    // Filter for role 'viewer');
+    // Filter for status 'complete');
     page.selectStatus(true);
+
+    // Choose the view type "Card"
+    page.changeView('card');
+
+    // There should be cards
+    // We should not see any list items
+    page.getTodoCards().should('exist');
+    page.getTodoListItems().should('not.exist');
 
     // Choose the view type "List"
     page.changeView('list');
 
-    // this doesn't switch the view yet
+    // There should be a list
+    // We should not see any card items
+    page.getTodoCards().should('not.exist');
+    page.getTodoListItems().should('exist');
   });
 
   // TODO: implement testing for checking the filtered results once we get the
