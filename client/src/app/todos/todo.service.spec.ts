@@ -64,6 +64,85 @@ describe('TodoService', () => {
     req.flush(testTodos);
   });
 
+  describe('Calling getTodos() with parameters correctly forms the HTTP request', () => {
+    /*
+     * We really don't care what `getTodos()` returns in the cases
+     * where the filtering is happening on the server. Since all the
+     * filtering is happening on the server, `getTodos()` is really
+     * just a "pass through" that returns whatever it receives, without
+     * any "post processing" or manipulation. So the tests in this
+     * `describe` block all confirm that the HTTP request is properly formed
+     * and sent out in the world, but don't _really_ care about
+     * what `getTodos()` returns as long as it's what the HTTP
+     * request returns.
+     *
+     * So in each of these tests, we'll keep it simple and have
+     * the (mocked) HTTP request return the entire list `testUsers`
+     * even though in "real life" we would expect the server to
+     * return return a filtered subset of the users.
+     */
+
+    it('correctly calls api/todos with filter parameter \'owner\'', () => {
+      todoService.getTodos({ owner: 'blanche' }).subscribe(
+        todos => expect(todos).toBe(testTodos)
+      );
+
+      // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+      const req = httpTestingController.expectOne(
+        (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('owner')
+      );
+
+      // Check that the request made to that URL was a GET request.
+      expect(req.request.method).toEqual('GET');
+
+      // Check that the role parameter was 'admin'
+      expect(req.request.params.get('owner')).toEqual('blanche');
+
+      req.flush(testTodos);
+    });
+
+    it('correctly calls api/users with filter parameter \'body\'', () => {
+
+      todoService.getTodos({ body: 'ad' }).subscribe(
+        todos => expect(todos).toBe(testTodos)
+      );
+
+      // Specify that (exactly) one request will be made to the specified URL with the body parameter.
+      const req = httpTestingController.expectOne(
+        (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('body')
+      );
+
+      // Check that the request made to that URL was a GET request.
+      expect(req.request.method).toEqual('GET');
+
+      // Check that the age parameter was '25'
+      expect(req.request.params.get('body')).toEqual('ad');
+
+      req.flush(testTodos);
+    });
+
+    it('correctly calls api/todos with multiple filter parameters', () => {
+
+      todoService.getTodos({ owner: 'roberta', body: 'in' }).subscribe(
+        todos => expect(todos).toBe(testTodos)
+      );
+
+      // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+      const req = httpTestingController.expectOne(
+        (request) => request.url.startsWith(todoService.todoUrl)
+          && request.params.has('owner') && request.params.has('body')
+      );
+
+      // Check that the request made to that URL was a GET request.
+      expect(req.request.method).toEqual('GET');
+
+      // Check that the role, company, and age parameters are correct
+      expect(req.request.params.get('owner')).toEqual('roberta');
+      expect(req.request.params.get('body')).toEqual('in');
+
+      req.flush(testTodos);
+    });
+
   describe('getTodosByID()', () => {
     it('calls api/todos/id with the correct ID', () => {
       // We're just picking a Todo "at random" from our little
@@ -87,6 +166,7 @@ describe('TodoService', () => {
       expect(req.request.method).toEqual('GET');
 
       req.flush(targetTodo);
+      });
     });
   });
 });

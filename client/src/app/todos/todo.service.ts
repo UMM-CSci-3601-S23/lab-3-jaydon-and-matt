@@ -35,7 +35,8 @@ export class TodoService {
 
     // Send the HTTP GET request with the given URL and parameters.
     // That will return the desired `Observable<User[]>`.
-    return this.httpClient.get<Todo[]>(this.todoUrl, { // /api/todos/{parameters here}
+    return this.httpClient.get<Todo[]>(this.todoUrl, { // /api/users/{parameters here}
+      params: httpParams,
     });
   }
 
