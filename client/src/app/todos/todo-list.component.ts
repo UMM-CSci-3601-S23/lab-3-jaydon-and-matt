@@ -52,6 +52,7 @@ export class TodoListComponent implements OnInit {
   getTodosFromServer() {
     this.todoService.getTodos({
       owner: this.todoOwner,
+      status: this.todoStatus,
       body: this.todoBody,
     }).subscribe(returnedTodos => {
       //This inner function passed to `subscribe` will be called

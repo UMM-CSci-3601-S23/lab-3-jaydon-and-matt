@@ -139,7 +139,7 @@ public class TodoDatabase {
   public Todo[] filterTodosByOwner(Todo[] todos, String targetOwner) {
     return Arrays
         .stream(todos)
-        .filter(todo -> todo.owner.equalsIgnoreCase(targetOwner.toLowerCase()))
+        .filter(todo -> todo.owner.toLowerCase().contains(targetOwner.toLowerCase()))
         .toArray(Todo[]::new);
   }
 
