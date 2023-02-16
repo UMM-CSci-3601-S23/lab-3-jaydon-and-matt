@@ -13,23 +13,42 @@ describe('Todo list', () => {
   });
 
   it('Should type something in the owner filter and check that it returned correct elements', () => {
-    // Filter for owner 'Joe Biden'
-    cy.get('[data-test=todoOwnerInput]').type('Joe Biden');
+    // Filter for owner 'Fry'
+    cy.get('[data-test=todoOwnerInput]').type('fry');
+
+    // All of the user cards should have the name we are filtering by
+    page.getTodoCards().each($card => {
+      cy.wrap($card).find('.todo-card-owner').should('have.text', 'Fry');
+    });
   });
 
   it('Should type something in the category filter and check that it returned correct elements', () => {
-    // Filter for category 'state of the union'
-    cy.get('[data-test=todoCategoryInput]').type('state of the union');
+    // Filter for category 'software development'
+    cy.get('[data-test=todoCategoryInput]').type('soft');
+    page.changeView('list');
+    // Each todo list's category name should include the text we are filtering by
+    page.getTodoListItems().each(e => {
+      cy.wrap(e).find('.todo-list-category').should('have.text', ' software design ');
+    });
   });
 
   it('Should type something in the body filter and check that it returned correct elements', () => {
-    // Filter for body 'Hand'
-    cy.get('[data-test=todoBodyInput]').type('Hand');
+    // Filter for body 'qui'
+    cy.get('[data-test=todoBodyInput]').type('qui');
+    page.changeView('list');
+    page.getTodoListItems().each(e => {
+      cy.wrap(e).find('.todo-list-body').contains('qui', {matchCase: false});
+    });
   });
 
   it('Should select a status, switch the view, and check that it returned correct elements', () => {
     // Filter for status 'complete');
-    page.selectStatus(true);
+    page.selectStatus('complete');
+
+    // All of the user cards should have the name we are filtering by
+    page.getTodoCards().each($card => {
+      cy.wrap($card).find('.todo-card-status').should('have.text', 'Complete');
+    });
 
     // Choose the view type "Card"
     page.changeView('card');
@@ -48,6 +67,4 @@ describe('Todo list', () => {
     page.getTodoListItems().should('exist');
   });
 
-  // TODO: implement testing for checking the filtered results once we get the
-  // filtering working. We should also do testing for changing the card/list view.
 });
