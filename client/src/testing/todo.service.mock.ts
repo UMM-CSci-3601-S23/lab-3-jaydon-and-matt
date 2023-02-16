@@ -15,8 +15,29 @@ export class MockTodoService extends TodoService {
       _id: 'chris_id',
       owner: 'Chris',
       status: true,
-      body: 'test',
-      category: 'video games'
+      body: 'go to mcdonald\'s',
+      category: 'food'
+    },
+    {
+      _id: 'bob_id',
+      owner: 'Bob',
+      status: false,
+      body: 'go to burger king',
+      category: 'food'
+    },
+    {
+      _id: 'jane_id',
+      owner: 'Jane',
+      status: true,
+      body: 'do math',
+      category: 'homework'
+    },
+    {
+      _id: 'sarah_id',
+      owner: 'Sarah',
+      status: false,
+      body: 'do english',
+      category: 'homework'
     },
   ];
 

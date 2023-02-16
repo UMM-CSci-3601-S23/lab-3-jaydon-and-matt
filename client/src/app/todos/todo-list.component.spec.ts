@@ -80,4 +80,16 @@ describe('TodoListComponent', () => {
   it('should create', () => {
     expect(todoList).toBeTruthy();
   });
+
+  it('contains all the todos', () => {
+    expect(todoList.serverFilteredTodos.length).toBe(4);
+  });
+
+  it('contains a todo named "Bob"', () => {
+    expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Bob')).toBe(true);
+  });
+
+  it('has two todos that have the category homework', () => {
+    expect(todoList.serverFilteredTodos.filter((todo: Todo) => todo.category === 'homework').length).toBe(2);
+  });
 });
