@@ -14,7 +14,7 @@ export class TodoService {
   constructor(private httpClient: HttpClient) { }
 
   getTodos(filters?: { owner?: string; body?: string; status?: string }): Observable<Todo[]> {
-    // NOTE when we call requests to filter by the server, nothing is actually being filtered
+    // NOTE when we call requests to filter by the body, nothing is actually being filtered
     // we would like to know why
 
     // `HttpParams` is essentially just a map used to hold key-value
@@ -57,11 +57,16 @@ export class TodoService {
    * @param filters the map of key-value pairs used for the filtering
    * @returns an array of `Todos` matching the given filters
    */
-  filterTodos(todos: Todo[], filters: { category?: string; status?: string }): Todo[] {
+  filterTodos(todos: Todo[], filters: { category?: string; status?: string; body?: string }): Todo[] {
     let filteredTodos = todos;
     if (filters.category) {
       filters.category = filters.category.toLowerCase();
       filteredTodos = filteredTodos.filter(todo => todo.category.toLowerCase().indexOf(filters.category) !== -1);
+    }
+
+    if (filters.body) {
+      filters.body = filters.body.toLowerCase();
+      filteredTodos = filteredTodos.filter(todo => todo.body.toLowerCase().indexOf(filters.body) !== -1);
     }
 
     if (filters.status) {
