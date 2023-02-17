@@ -51,6 +51,23 @@ describe('Todo list', () => {
     });
   });
 
+  it('Should limit the number of todos displayed', () => {
+    // Filter for a limit of 3 todos
+    cy.get('[data-test=todoLimitInput]').type('3');
+
+    page.getTodoCards().should('have.lengthOf', 3);
+
+    // Go through each of the cards that are being shown and get the names
+    page.getTodoCards().find('.todo-card-owner')
+      // We should see only the first 3 todo cards
+      .should('contain.text', 'Blanche')
+      .should('contain.text', 'Fry')
+      .should('contain.text', 'Fry');
+
+      // And these should be the only cards that show up on the page.
+      page.getTodoCards().should('have.lengthOf', 3);
+  });
+
   it('Should change the view', () => {
         // Choose the view type "Card"
         page.changeView('card');
