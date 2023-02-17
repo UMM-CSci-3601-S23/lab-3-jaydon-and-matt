@@ -24,6 +24,7 @@ export class TodoListComponent implements OnInit {
   public todoStatus: string;
   public todoBody: string;
   public todoCategory: string;
+  public todoLimit: number;
   public viewType: 'card' | 'list' = 'card';
 
   /**
@@ -54,6 +55,7 @@ export class TodoListComponent implements OnInit {
       owner: this.todoOwner,
       status: this.todoStatus,
       body: this.todoBody,
+      limit: this.todoLimit,
     }).subscribe(returnedTodos => {
       //This inner function passed to `subscribe` will be called
       //when the `Observable` returned by `getTodos()` has one
