@@ -55,8 +55,6 @@ describe('Todo list', () => {
     // Filter for a limit of 3 todos
     cy.get('[data-test=todoLimitInput]').type('3');
 
-    page.getTodoCards().should('have.lengthOf', 3);
-
     // Go through each of the cards that are being shown and get the names
     page.getTodoCards().find('.todo-card-owner')
       // We should see only the first 3 todo cards
@@ -66,6 +64,61 @@ describe('Todo list', () => {
 
       // And these should be the only cards that show up on the page.
       page.getTodoCards().should('have.lengthOf', 3);
+  });
+
+  it('Should sort by owner', () => {
+    // Sort the todos by owner
+    page.selectSort('owner');
+
+    // Go through each of the cards that are being shown and get the owners
+    page.getTodoCards().find('.todo-card-owner')
+      // The first 5 cards should be owned by Barry
+      .should('contain.text', 'Barry')
+      .should('contain.text', 'Barry')
+      .should('contain.text', 'Barry')
+      .should('contain.text', 'Barry')
+      .should('contain.text', 'Barry');
+  });
+
+  it('Should sort by body', () => {
+    // Sort the todos by body and change the view
+    page.selectSort('body');
+    page.changeView('list');
+
+    // Go through each of the items and get the body
+    page.getTodoListItems().find('.todo-list-body')
+      // The first 2 cards should have the text 'Ad'
+      .should('contain.text', 'Ad')
+      .should('contain.text', 'Ad');
+  });
+
+  it('Should sort by category', () => {
+    // Sort the todos by category and change the view
+    page.selectSort('category');
+    page.changeView('list');
+
+    // Go through each of the items and get the category
+    page.getTodoListItems().find('.todo-list-category')
+      // The first 5 cards should be owned by Barry
+      .should('contain.text', 'groceries')
+      .should('contain.text', 'groceries')
+      .should('contain.text', 'groceries')
+      .should('contain.text', 'groceries')
+      .should('contain.text', 'groceries');
+  });
+
+  it('Should sort by status', () => {
+    // Sort the todos by status
+    page.selectSort('status');
+
+    // Go through each of the cards that are being shown and get the status
+    page.getTodoCards().find('.todo-card-status')
+      // The first 5 cards should be incomplete
+      .should('contain.text', 'Incomplete')
+      .should('contain.text', 'Incomplete')
+      .should('contain.text', 'Incomplete')
+      .should('contain.text', 'Incomplete')
+      .should('contain.text', 'Incomplete');
   });
 
   it('Should change the view', () => {

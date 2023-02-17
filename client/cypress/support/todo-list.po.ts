@@ -59,4 +59,17 @@ export class TodoListPage {
       .get(`mat-option[value="${value}"]`).click();
       // NOTE: THIS CHAINING MIGHT BE FRAGILE (due to a 'click' followed by a 'get')
   }
+
+  /**
+   * Selects a sort to filter in the "Sort" selector.
+   *
+   * @param value The sort *value* to select, this is what's found in the mat-option "value" attribute. (string)
+   */
+  selectSort(value: string) {
+    // Find and click the drop down
+    return cy.get('[data-test=todoSortSelect]').click()
+      // Select and click the desired value from the resulting menu
+      .get(`mat-option[value="${value}"]`).click();
+      // NOTE: THIS CHAINING MIGHT BE FRAGILE (due to a 'click' followed by a 'get')
+  }
 }
