@@ -14,8 +14,6 @@ export class TodoService {
   constructor(private httpClient: HttpClient) { }
 
   getTodos(filters?: { owner?: string; body?: string; status?: string }): Observable<Todo[]> {
-    // NOTE when we call requests to filter by the body, nothing is actually being filtered
-    // we would like to know why
 
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in

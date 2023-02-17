@@ -16,7 +16,7 @@ describe('Todo list', () => {
     // Filter for owner 'Fry'
     cy.get('[data-test=todoOwnerInput]').type('fry');
 
-    // All of the user cards should have the name we are filtering by
+    // All of the todo cards should have the owner we are filtering by
     page.getTodoCards().each($card => {
       cy.wrap($card).find('.todo-card-owner').should('have.text', 'Fry');
     });
@@ -41,30 +41,32 @@ describe('Todo list', () => {
     });
   });
 
-  it('Should select a status, switch the view, and check that it returned correct elements', () => {
+  it('Should select a status and check that it returned correct elements', () => {
     // Filter for status 'complete');
     page.selectStatus('complete');
 
-    // All of the user cards should have the name we are filtering by
+    // All of the todo cards should have the status we are filtering by
     page.getTodoCards().each($card => {
       cy.wrap($card).find('.todo-card-status').should('have.text', 'Complete');
     });
+  });
 
-    // Choose the view type "Card"
-    page.changeView('card');
+  it('Should change the view', () => {
+        // Choose the view type "Card"
+        page.changeView('card');
 
-    // There should be cards
-    // We should not see any list items
-    page.getTodoCards().should('exist');
-    page.getTodoListItems().should('not.exist');
+        // There should be cards
+        // We should not see any list items
+        page.getTodoCards().should('exist');
+        page.getTodoListItems().should('not.exist');
 
-    // Choose the view type "List"
-    page.changeView('list');
+        // Choose the view type "List"
+        page.changeView('list');
 
-    // There should be a list
-    // We should not see any card items
-    page.getTodoCards().should('not.exist');
-    page.getTodoListItems().should('exist');
+        // There should be a list
+        // We should not see any card items
+        page.getTodoCards().should('not.exist');
+        page.getTodoListItems().should('exist');
   });
 
 });
