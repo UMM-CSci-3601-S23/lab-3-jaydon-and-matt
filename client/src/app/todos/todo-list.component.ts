@@ -25,6 +25,7 @@ export class TodoListComponent implements OnInit {
   public todoBody: string;
   public todoCategory: string;
   public todoLimit: number;
+  public todoSort: string;
   public viewType: 'card' | 'list' = 'card';
 
   /**
