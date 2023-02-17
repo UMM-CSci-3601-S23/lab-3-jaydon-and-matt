@@ -21,7 +21,7 @@ export class TodoListComponent implements OnInit {
   public filteredTodos: Todo[];
 
   public todoOwner: string;
-  public todoStatus: boolean;
+  public todoStatus: string;
   public todoBody: string;
   public todoCategory: string;
   public viewType: 'card' | 'list' = 'card';
@@ -45,16 +45,20 @@ export class TodoListComponent implements OnInit {
    */
   updateFilter() {
     this.filteredTodos = this.todoService.filterTodos(
-      this.serverFilteredTodos
+      this.serverFilteredTodos, { category: this.todoCategory, status: this.todoStatus, body: this.todoBody }
     );
   }
 
   getTodosFromServer() {
-    this.todoService.getTodos().subscribe(returnedTodos => {
+    this.todoService.getTodos({
+      owner: this.todoOwner,
+      status: this.todoStatus,
+      body: this.todoBody,
+    }).subscribe(returnedTodos => {
       //This inner function passed to `subscribe` will be called
-      //when the `Observable` returned by `getUsers()` has one
-      //or more values to return. `returnedUsers` will be the
-      //name for the array of `Users` we got back from the
+      //when the `Observable` returned by `getTodos()` has one
+      //or more values to return. `returnedTodos` will be the
+      //name for the array of `Todos` we got back from the
       //server.
       this.serverFilteredTodos = returnedTodos;
       this.updateFilter();

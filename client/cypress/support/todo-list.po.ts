@@ -52,7 +52,7 @@ export class TodoListPage {
    *
    * @param value The status *value* to select, this is what's found in the mat-option "value" attribute. (boolean)
    */
-  selectStatus(value: boolean) {
+  selectStatus(value: string) {
     // Find and click the drop down
     return cy.get('[data-test=todoStatusSelect]').click()
       // Select and click the desired value from the resulting menu

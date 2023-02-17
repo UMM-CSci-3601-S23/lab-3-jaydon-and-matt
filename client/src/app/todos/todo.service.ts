@@ -13,16 +13,28 @@ export class TodoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getTodos(): Observable<Todo[]> {
-    // TODO: support filtering the todos by its properties... we will do this with an httpParams map
+  getTodos(filters?: { owner?: string; body?: string; status?: string }): Observable<Todo[]> {
 
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in
     // the URL when we make the call to `.get()` below.
+    let httpParams: HttpParams = new HttpParams();
+    if (filters) {
+      if (filters.owner) {
+        httpParams = httpParams.set('owner', filters.owner);
+      }
+      if (filters.body) {
+        httpParams = httpParams.set('body', filters.body);
+      }
+      if (filters.status) {
+        httpParams = httpParams.set('status', filters.status);
+      }
+    }
 
     // Send the HTTP GET request with the given URL and parameters.
     // That will return the desired `Observable<User[]>`.
     return this.httpClient.get<Todo[]>(this.todoUrl, { // /api/users/{parameters here}
+      params: httpParams,
     });
   }
 
@@ -43,18 +55,24 @@ export class TodoService {
    * @param filters the map of key-value pairs used for the filtering
    * @returns an array of `Todos` matching the given filters
    */
-  filterTodos(todos: Todo[]): Todo[] {
-    const filteredTodos = todos;
-    // TODO: allow filtering on the client side (use the methods below as a template). filteredTodos won't be a constant
-    /*if (filters.name) {
-      filters.name = filters.name.toLowerCase();
-      filteredTodos = filteredTodos.filter(user => user.name.toLowerCase().indexOf(filters.name) !== -1);
+  filterTodos(todos: Todo[], filters: { category?: string; status?: string; body?: string }): Todo[] {
+    let filteredTodos = todos;
+    if (filters.category) {
+      filters.category = filters.category.toLowerCase();
+      filteredTodos = filteredTodos.filter(todo => todo.category.toLowerCase().indexOf(filters.category) !== -1);
     }
 
-    if (filters.company) {
-      filters.company = filters.company.toLowerCase();
-      filteredTodos = filteredTodos.filter(user => user.company.toLowerCase().indexOf(filters.company) !== -1);
-    }*/
+    if (filters.body) {
+      filters.body = filters.body.toLowerCase();
+      filteredTodos = filteredTodos.filter(todo => todo.body.toLowerCase().indexOf(filters.body) !== -1);
+    }
+
+    if (filters.status) {
+      let booleanStatus: boolean;
+      if(filters.status === 'complete') { booleanStatus = true; }
+      else if(filters.status === 'incomplete') { booleanStatus = false; };
+      filteredTodos = filteredTodos.filter(todo => todo.status === booleanStatus);
+    }
 
     return filteredTodos;
   }

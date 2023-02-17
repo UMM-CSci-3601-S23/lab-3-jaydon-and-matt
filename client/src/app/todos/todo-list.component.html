@@ -10,17 +10,17 @@
 
           <mat-form-field class="input-field">
             <mat-label>Status</mat-label>
-            <mat-select (selectionChange)="updateFilter()" [(ngModel)]="todoStatus" data-test="todoStatusSelect">
+            <mat-select (selectionChange)="getTodosFromServer()" [(ngModel)]="todoStatus" data-test="todoStatusSelect">
               <mat-option>--</mat-option>
-              <mat-option value="true">Complete</mat-option>
-              <mat-option value="false">Incomplete</mat-option>
+              <mat-option value="complete">Complete</mat-option>
+              <mat-option value="incomplete">Incomplete</mat-option>
             </mat-select>
-            <mat-hint>Filtered on client</mat-hint>
+            <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
 
           <mat-form-field class="input-field">
             <mat-label>Category</mat-label>
-            <input matInput data-test="todoCategoryInput" placeholder="Filter by Category"
+            <input matInput data-test="todoCategoryInput" placeholder="Filter by category"
             [(ngModel)]="todoCategory" (input)="updateFilter()">
             <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
@@ -39,8 +39,8 @@
           <mat-form-field class="input-field">
             <mat-label>Body</mat-label>
             <input matInput data-test="todoBodyInput" placeholder="Filter by body"
-            (ngModel)="todoBody" (input)="getTodosFromServer()">
-            <mat-hint>Filtered on server</mat-hint>
+            [(ngModel)]="todoBody" (input)="updateFilter()">
+            <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
 
         </div>
@@ -66,7 +66,7 @@
 
       <!-- Card grid view -->
       <div *ngSwitchCase="'card'" class="todo-cards-container flex-row gap-10 flex-wrap">
-        <app-todo-card [simple]="true" *ngFor="let todo of filteredTodos" class="todo-card" [todo]="todo" fxFlex="1 1 280px"></app-todo-card>
+        <app-todo-card [simple]="true" *ngFor="let todo of filteredTodos" class="app-todo-card" [todo]="todo" fxFlex="1 1 280px"></app-todo-card>
       </div>
 
       <!-- List view -->
