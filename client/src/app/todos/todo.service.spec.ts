@@ -121,6 +121,26 @@ describe('TodoService', () => {
       req.flush(testTodos);
     });
 
+    it('correctly calls api/todos with filter parameter \'orderBy\'', () => {
+
+      todoService.getTodos({ sort: 'owner' }).subscribe(
+        todos => expect(todos).toBe(testTodos)
+      );
+
+      // Specify that (exactly) one request will be made to the specified URL with the body parameter.
+      const req = httpTestingController.expectOne(
+        (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('orderBy')
+      );
+
+      // Check that the request made to that URL was a GET request.
+      expect(req.request.method).toEqual('GET');
+
+      // Check that the age parameter was '25'
+      expect(req.request.params.get('orderBy')).toEqual('owner');
+
+      req.flush(testTodos);
+    });
+
     it('correctly calls api/todos with filter parameter \'limit\'', () => {
 
       todoService.getTodos({ limit: 7 }).subscribe(
