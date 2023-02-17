@@ -57,6 +57,7 @@ export class TodoListComponent implements OnInit {
       status: this.todoStatus,
       body: this.todoBody,
       limit: this.todoLimit,
+      sort: this.todoSort
     }).subscribe(returnedTodos => {
       //This inner function passed to `subscribe` will be called
       //when the `Observable` returned by `getTodos()` has one
