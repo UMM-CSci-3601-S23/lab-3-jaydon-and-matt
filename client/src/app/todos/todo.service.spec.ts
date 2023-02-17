@@ -77,9 +77,9 @@ describe('TodoService', () => {
      * request returns.
      *
      * So in each of these tests, we'll keep it simple and have
-     * the (mocked) HTTP request return the entire list `testUsers`
+     * the (mocked) HTTP request return the entire list `testTodos`
      * even though in "real life" we would expect the server to
-     * return return a filtered subset of the users.
+     * return return a filtered subset of the todos.
      */
 
     it('correctly calls api/todos with filter parameter \'owner\'', () => {
@@ -101,7 +101,7 @@ describe('TodoService', () => {
       req.flush(testTodos);
     });
 
-    it('correctly calls api/users with filter parameter \'body\'', () => {
+    it('correctly calls api/todos with filter parameter \'body\'', () => {
 
       todoService.getTodos({ body: 'ad' }).subscribe(
         todos => expect(todos).toBe(testTodos)
@@ -115,8 +115,28 @@ describe('TodoService', () => {
       // Check that the request made to that URL was a GET request.
       expect(req.request.method).toEqual('GET');
 
-      // Check that the age parameter was '25'
+      // Check that the body parameter was '25'
       expect(req.request.params.get('body')).toEqual('ad');
+
+      req.flush(testTodos);
+    });
+
+    it('correctly calls api/todos with filter parameter \'limit\'', () => {
+
+      todoService.getTodos({ limit: 7 }).subscribe(
+        todos => expect(todos).toBe(testTodos)
+      );
+
+      // Specify that (exactly) one request will be made to the specified URL with the body parameter.
+      const req = httpTestingController.expectOne(
+        (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('limit')
+      );
+
+      // Check that the request made to that URL was a GET request.
+      expect(req.request.method).toEqual('GET');
+
+      // Check that the age parameter was '25'
+      expect(req.request.params.get('limit')).toEqual('7');
 
       req.flush(testTodos);
     });
@@ -155,7 +175,7 @@ describe('TodoService', () => {
         // Since the `targetTodo`
         // is what the mock `HttpClient` returns in the
         // `req.flush(targetTodo)` line below, this
-        // really just confirms that `getTodoByid()`
+        // really just confirms that `getTodoById()`
         // doesn't in some way modify the user it
         // gets back from the server.
         todo => expect(todo).toBe(targetTodo)

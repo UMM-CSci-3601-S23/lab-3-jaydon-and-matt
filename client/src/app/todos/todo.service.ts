@@ -13,7 +13,9 @@ export class TodoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getTodos(filters?: { owner?: string; body?: string; status?: string }): Observable<Todo[]> {
+  // we're going to add functionality for sorting and limiting as filter options here
+  // the server can do these things already... let's just make it part of the http request
+  getTodos(filters?: { owner?: string; body?: string; status?: string; limit?: number }): Observable<Todo[]> {
 
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in
@@ -28,6 +30,9 @@ export class TodoService {
       }
       if (filters.status) {
         httpParams = httpParams.set('status', filters.status);
+      }
+      if (filters.limit) {
+        httpParams = httpParams.set('limit', filters.limit);
       }
     }
 
